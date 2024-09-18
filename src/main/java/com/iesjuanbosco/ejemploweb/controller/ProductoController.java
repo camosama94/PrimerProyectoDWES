@@ -3,6 +3,7 @@ package com.iesjuanbosco.ejemploweb.controller;
 import com.iesjuanbosco.ejemploweb.entity.Producto;
 import com.iesjuanbosco.ejemploweb.repository.ProductoRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,8 +24,9 @@ public class ProductoController {
     http://localhost/productos*/
 
     @GetMapping("/productos")
-    public String findAll(){
+    public String findAll(Model model){
         List<Producto> productos = this.productoRepository.findAll();
+        model.addAttribute("productos",productos);
         return "product-list";
     }
 
