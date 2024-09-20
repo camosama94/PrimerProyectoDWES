@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import java.sql.Array;
 import java.util.*;
@@ -22,6 +24,18 @@ public class ProductoController {
 
     /* Con GetMapping indicamos que el metodo se va a ejecutar cuando se acceda a esta url
     http://localhost/productos*/
+
+    @GetMapping("/productos2")
+    @ResponseBody
+    public String index(){
+        List<Producto> productos = this.productoRepository.findAll();
+        StringBuilder HTML = new StringBuilder("<html><body>");
+        productos.forEach(producto -> {
+            HTML.append("<p>" + producto.getTitulo() + "</p>");
+        });
+        HTML.append("</body></html>");
+        return HTML.toString();
+    }
 
     @GetMapping("/productos")
     public String findAll(Model model){
