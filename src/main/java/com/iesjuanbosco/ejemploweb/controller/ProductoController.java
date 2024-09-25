@@ -2,8 +2,10 @@ package com.iesjuanbosco.ejemploweb.controller;
 
 import com.iesjuanbosco.ejemploweb.entity.Producto;
 import com.iesjuanbosco.ejemploweb.repository.ProductoRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -93,7 +95,11 @@ public class ProductoController {
     }
 
     @PostMapping("/productos/new")
-    public String newProductInsert(Producto producto){
+    public String newProductInsert(@Valid Producto producto, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "product-new.html";
+        }
         //Insertamos los datos en la BBDD
         //Integer cant = Integer.parseInt(cantidad);
         //Double price = Double.parseDouble(precio);
@@ -104,20 +110,16 @@ public class ProductoController {
     }
 
 
-    @GetMapping("/productos/edit")
-    public String editProductView(Model model, Long id){
-        Optional producto = productoRepository.findById(id);
+    @GetMapping("/productos/edit/{id}")
+    public String editProductView(@PathVariable long id, Model model){
+        Producto producto = productoRepository.findById(id).orElse(new Producto());
         model.addAttribute("producto", producto);
-        return "product_edit.html";
+        return "product_new.html";
     }
 
     @PostMapping("/productos/edit")
     public String editProduct(Producto producto){
-        //Insertamos los datos en la BBDD
-        //Integer cant = Integer.parseInt(cantidad);
-        //Double price = Double.parseDouble(precio);
-        //Producto producto = new Producto(null,titulo,cantidad,precio);
-        //productoRepository.;
+        productoRepository.save(producto);
         //redirigimos a la lista de productos /productos
         return "redirect:/productos";
     }

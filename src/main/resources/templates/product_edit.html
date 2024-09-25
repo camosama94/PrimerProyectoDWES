@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+    <form th:action="@{/productos/edit}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id}" name="id">
+        <input type="text" th:field="*{titulo}" name="titulo" placeholder="titulo" id="titulo">
+        <input type="number" th:field="*{cantidad}" name="cantidad" placeholder="cantidad" id="cantidad" >
+        <input type="number" th:field="*{precio}" step="0.01" name="precio" placeholder="precio" id="precio">
+        <input type="submit" value="Actualizar">
+    </form>
+</body>
+</html>

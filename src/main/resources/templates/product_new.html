@@ -6,11 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    <form th:action="@{/productos/new}" th:object="${producto}" method="post">
-        <input type="text" th:field="*{titulo}" name="titulo" placeholder="titulo" id="titulo" >
-        <input type="number" th:field="*{cantidad}" name="cantidad" placeholder="cantidad" id="cantidad" >
+    <form th:action="${producto.id != 'null' ? '/productos/new' : '/productos/edit'}" th:object="${producto}" method="post">
+        <input type="hidden" th:field="*{id}" name="id">
+        <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{name}"></span>
+        <input type="text" th:field="*{titulo}" name="titulo" placeholder="titulo" id="titulo" ><br>
+        <input type="number" th:field="*{cantidad}" name="cantidad" placeholder="cantidad" id="cantidad" ><br>
         <input type="number" th:field="*{precio}" step="0.01" name="precio" placeholder="precio" id="precio">
-        <input type="submit" value="Insertar">
+        <div th:if="${producto.id == null}">
+            <input type="submit" value="Insertar">
+        </div>
+        <div th:unless="${producto.id == null}">
+            <input type="submit" value="Actualizar">
+        </div>
+
     </form>
 </body>
 </html>
